@@ -17,5 +17,12 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_user
-  
+
+  def admin_only
+    if !current_user.admin
+      flash[:alert] = "You are not admin."
+      redirect_to movies_path
+    end
+  end
+
 end

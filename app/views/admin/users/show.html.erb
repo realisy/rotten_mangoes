@@ -1,0 +1,6 @@
+<%= link_to "Back to all users", admin_users_path %><br/>
+
+<h2><%= @user.firstname %> <%= @user.lastname %> <small>(<%= link_to "edit", edit_admin_user_path(@user) %>, <%= link_to "destroy", admin_user_path(@user), method: :delete %>)</small></h2>
+<h3><%= @user.email %></h3>
+<h4> Created at: <%= @user.created_at %> </h4>
+<h4> <%= link_to "Impersonate", admin_testing_path %> </h4>
