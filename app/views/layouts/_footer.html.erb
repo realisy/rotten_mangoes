@@ -8,5 +8,8 @@
     <% else %>
         <%= link_to "Log In", new_session_path %> | <%= link_to "Sign Up", new_user_path %>
     <% end %>
+    <% if is_impersonating? %>
+        <%= link_to "end_impersonate", end_impersonate_admin_users_path, method: :put%>
+    <% end %>
   </small>
 </footer>

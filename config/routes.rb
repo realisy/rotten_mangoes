@@ -1,6 +1,5 @@
 RottenMangoes::Application.routes.draw do
 
-
   resources :movies do
     resources :reviews, only: [:new, :create]
   end
@@ -9,8 +8,16 @@ RottenMangoes::Application.routes.draw do
   root to: 'movies#index'
 
   namespace :admin do
-    resources :users
+    resources :users do
+      collection do
+        put "end_impersonate"
+      end
+      member do
+        post "impersonate"
+      end
+    end
   end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

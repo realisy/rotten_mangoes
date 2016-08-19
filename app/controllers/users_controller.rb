@@ -10,6 +10,9 @@ class UsersController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       redirect_to movies_path, notice: "Welcome aboard, #{@user.firstname}!"
+    elsif is_admin?
+      redirect_to admin_users_path, notice: "You have just created, #{@user
+                                                                   .firstname}!"
     else
       render :new
     end

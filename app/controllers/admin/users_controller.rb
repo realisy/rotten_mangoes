@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
-  before_filter :admin_only
+  before_filter :admin_only, except: :end_impersonate
   def index
-    @users = User.all.order(params[:sort])
+    @users = User.all.order(params[:sort]).page(params[:page]).per(10)
   end
 
   def show
@@ -37,15 +37,24 @@ class Admin::UsersController < ApplicationController
     respond_to do |format|
       if @user.destroy
         # Tell the UserMailer to send a welcome email after save
-        binding.pry
-        UserMailer.delete_email(@user).deliver
+        # UserMailer.delete_email(@user).deliver
         format.html { redirect_to admin_users_path, notice: 'User was successfully deleted.' }
         #created creates 201 status for browser
       else
-        binding.pry
         format.html { redirect_to admin_users_path }
       end
     end
+  end
+
+  def impersonate
+    session[:admin_user_id] = current_user.id
+    session[:user_id] = params[:id]
+    redirect_to movies_path
+  end
+
+  def end_impersonate
+    session[:user_id] = session.delete(:admin_user_id)
+    redirect_to movies_path
   end
 
   protected
